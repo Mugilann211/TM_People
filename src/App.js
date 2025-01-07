@@ -6,6 +6,11 @@ import Dashboard from "./pages/Dashboard";
 import TeamSpaceDashboard from "./pages/TeamSpaceDashboard"; 
 import DepartmentDashboard from "./pages/DepartmentDashboard";
 import PeersDashboard from "./pages/PeersDashboard";
+import EmployeeTree from "./pages/EmployeeTree";
+import EmployeeList from "./pages/EmployeeList";
+import ClickOrganization from "./pages/ClickOrganization";
+
+
 
 const App = () => {
   const [activeSection, setActiveSection] = React.useState("mySpace");
@@ -31,8 +36,10 @@ const App = () => {
           {activeSection === "mySpace" && <Dashboard />}
           {activeSection === "team" && activeSubsection === "Team Space" && <TeamSpaceDashboard />}
           {activeSection === "team" && activeSubsection === "Department" && <DepartmentDashboard />}
-          {activeSection === "team" && activeSubsection === "Peers" && <PeersDashboard />}
-          {activeSection === "organization" && <Dashboard />}
+          {activeSection === "team"  && activeSubsection === "Peers" && <PeersDashboard />}
+          {activeSection === "organization" &&  activeSubsection === "Employee Tree" && <EmployeeTree />}
+          {activeSection === "organization" &&  activeSubsection === "Employee List" && <EmployeeList />}
+          {activeSection === "organization" &&  activeSubsection === "Overview" && <ClickOrganization/>}
         </div>
       </div>
 

@@ -16,15 +16,15 @@ const TeamSpaceDashboard = () => {
     <div className="flex flex-1 bg-gray-100 p-4">
       {/* Left Sidebar */}
       <div className="w-1/4 my-20 mr-6 space-y-4">
-        <div className="absolute top-[9.5rem] left-[13.9rem] border border-black w-24 h-24 flex justify-center items-center bg-white font-bold text-6xl cursor-pointer">
+        <div className="absolute top-[9.5rem] left-[13.9rem] border w-24 h-24 flex justify-center items-center bg-white font-bold text-6xl cursor-pointer bg  shadow-lg">
           SE
         </div>
         <div className="bg-white shadow p-4 h-40 rounded-lg">
-          <h3 className="font-semibold my-10 ml-16">Software Engineering</h3>
+          <h3 className="font-semibold my-10 ml-16 cursor-pointer">Software Engineering</h3>
           <p>
             Team strength{" "}
             <span
-              className="cursor-pointer ml-[128px] text-blue-500 hover:underline"
+              className="cursor-pointer ml-[130px] text-blue-500 hover:underline"
               onClick={() => setShowTeamStrength(!showTeamStrength)}
             >
               {consolidatedMembers.length}
@@ -33,13 +33,41 @@ const TeamSpaceDashboard = () => {
         </div>
         <div className="bg-white shadow p-4 rounded-lg">
           <h3 className="font-semibold">Team Availability</h3>
-          <p>WFH: 9</p>
-          <p>Yet to check-in: 9</p>
+          <p>Yet to check-in {" "} 
+          <span
+              className="cursor-pointer ml-[127px] text-blue-500 hover:underline "
+              onClick={() => setShowTeamStrength(!showTeamStrength)}
+            >
+              {consolidatedMembers.length}
+            </span>
+          </p>
+          <p>Yet to check-out {" "} 
+          <span
+              className="cursor-pointer ml-[117px] text-blue-500 hover:underline "
+              onClick={() => setShowTeamStrength(!showTeamStrength)}
+            >
+              {consolidatedMembers.length}
+            </span>
+          </p>
         </div>
         <div className="bg-white shadow p-4 rounded-lg">
           <h3 className="font-semibold">Location Diversity</h3>
-          <p>R&D: 59</p>
-          <p>Unspecified: 51</p>
+          <p>R&D {" "} 
+          <span
+              className="cursor-pointer ml-[200px] text-blue-500 hover:underline"
+              onClick={() => setShowTeamStrength(!showTeamStrength)}
+            >
+              {consolidatedMembers.length}
+            </span>
+          </p>
+          <p>Unspecified {" "} 
+          <span
+              className="cursor-pointer ml-[152px] text-blue-500 hover:underline"
+              onClick={() => setShowTeamStrength(!showTeamStrength)}
+            >
+              {consolidatedMembers.length}
+            </span>
+          </p>
         </div>
         <div className="bg-white shadow p-4 rounded-lg h-40">
           <h3 className="font-semibold">Stream</h3>
@@ -47,7 +75,7 @@ const TeamSpaceDashboard = () => {
       </div>
 
       {/* Center Content */}
-      <div className="w-1/2 my-20 mr-6 space-y-4">
+      <div className="w-1/2 my-[97px] mr-6 space-y-4">
         <div className="bg-white shadow p-4 rounded-lg h-40">
           <p className="font-semibold">Post a message to your department</p>
         </div>
@@ -57,7 +85,7 @@ const TeamSpaceDashboard = () => {
       </div>
 
       {/* Right Sidebar */}
-      <div className="w-1/4 my-20 space-y-4">
+      <div className="w-1/4 my-[97px] space-y-4">
         <div className="bg-white shadow p-4 rounded-lg h-74">
           <h3 className="font-semibold mb-4">Recently Checked In</h3>
           <div className="space-y-2 overflow-y-auto max-h-48">

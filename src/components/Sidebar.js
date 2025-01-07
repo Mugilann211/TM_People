@@ -3,7 +3,7 @@ import { FaHome, FaFileAlt, FaRegClock, FaCalendar } from 'react-icons/fa';
 
 const Sidebar = () => {
   const menuItems = [
-    { name: 'Home', icon: <FaHome /> },
+    { name: 'Home', icon: <FaHome />, },
     { name: 'Leave Tracker', icon: <FaFileAlt /> },
     { name: 'Time Tracker', icon: <FaRegClock /> },
     { name: 'Attendance', icon: <FaCalendar /> },

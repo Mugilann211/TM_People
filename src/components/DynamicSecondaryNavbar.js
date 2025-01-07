@@ -8,7 +8,7 @@ const DynamicSecondaryNavbar = ({ activeSection, setActiveSection, activeSubsect
   const secondaryNavItems = {
     team: ["Team Space", "Department", "Peers"],
     mySpace: ["Overview", "Projects", "Tasks"],
-    organization: ["Overview", "Announcements", "Policies"],
+    organization: ["Overview", "Employee Tree", "Employee List",],
   };
 
   return (

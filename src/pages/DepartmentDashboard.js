@@ -69,8 +69,10 @@ const DepartmentDashboard = () => {
               <p className="font-semibold text-sm">{teamLead.name}</p>
               <p className="text-xs text-gray-500">{teamLead.role}</p>
             </div>
-            <div className="mb-6">
-              <p className="text-lg font-bold ">{totalMembers} members</p>
+            <div className="ml-[1100px]">
+              <p className="text-lg font-bold cursor-pointer"><span>{totalMembers} </span>
+               
+              </p>
             </div>
           </div>
         )}
