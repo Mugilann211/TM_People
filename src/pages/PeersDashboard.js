@@ -5,7 +5,7 @@ const PeersDashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   // Extracting the department head and team lead
-  const departmentHead = consolidatedMembers.find((member) => member.role === 'Senior Developer' && member.status === 'Checked In');
+  const departmentHead = consolidatedMembers.find((member) => member.role === 'CEO' && member.status === 'Checked In');
   const teamLead = consolidatedMembers.find((member) => member.role === 'Team Lead' && member.status === 'Checked In');
 
   // Filtering members based on search query

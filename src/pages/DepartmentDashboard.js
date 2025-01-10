@@ -71,6 +71,7 @@ const DepartmentDashboard = () => {
             </div>
             <div className="ml-[1100px]">
               <p className="text-lg font-bold cursor-pointer"><span>{totalMembers} </span>
+              <p className="text-xs text-gray-500">Members</p>
                
               </p>
             </div>

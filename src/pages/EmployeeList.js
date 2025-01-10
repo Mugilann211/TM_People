@@ -1,32 +1,36 @@
 import React, { useState } from "react";
-import { employees } from "./EmployeesData"; // Import employee data
-import { AgGridReact } from "ag-grid-react"; // AgGridReact for the table
-import "ag-grid-community/styles/ag-grid.css"; // AgGrid styles
-import "ag-grid-community/styles/ag-theme-alpine.css";
+import employeeData, { employees } from "../components/data/employees";
+import SearchBar from "../components/SearchBar";
 
 const EmployeeList = () => {
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
   const [selectedEmployee, setSelectedEmployee] = useState(null); // State for selected employee
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [currentPage, setCurrentPage] = useState(1); // State for current page
+  const rowsPerPage = 10; // Number of rows per page
 
-  // Column definitions for the AgGrid table
-  const [columnDefs] = useState([
-    { headerName: "Employee ID", field: "id", sortable: true, filter: true, pinned: "left" },
-    { headerName: "First Name", field: "firstName", sortable: true, filter: true, pinned: "left" },
-    { headerName: "Last Name", field: "lastName", sortable: true, filter: true, pinned: "left" },
-    { headerName: "Email Address", field: "email", sortable: true, filter: true },
-    { headerName: "Department", field: "department", sortable: true, filter: true },
-    { headerName: "Designation", field: "Role", sortable: true, filter: true },
-    { headerName: "Employment Type", field: "Type", sortable: true, filter: true },
-    { headerName: "Employment Status", field: "Active", sortable: true, filter: true },
-    { headerName: "Reporting Manager", field: "ReportingTo", sortable: true, filter: true },
-    { headerName: "Date of Joining", field: "JoiningDate", sortable: true, filter: true },
-    { headerName: "Date of Birth", field: "BirthDate", sortable: true, filter: true },
-  ]);
+  console.log(employeeData);
+
+  // Filtered employees based on the search term
+  const filteredEmployees = employees.filter((employee) =>
+    `${employee.firstName} ${employee.lastName}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredEmployees.length / rowsPerPage);
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  const currentRows = filteredEmployees.slice(indexOfFirstRow, indexOfLastRow);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
   // Handle row click to open modal
-  const handleRowClick = (event) => {
-    setSelectedEmployee(event.data); // Set the selected employee details
+  const handleRowClick = (employee) => {
+    setSelectedEmployee(employee); // Set the selected employee details
     setIsModalOpen(true); // Open the modal
   };
 
@@ -36,109 +40,159 @@ const EmployeeList = () => {
     setSelectedEmployee(null);
   };
 
-  // Filtered employees based on the search term
-  const filteredEmployees = employees.filter((employee) =>
-    `${employee.firstName} ${employee.lastName}`
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase())
-  );
-
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-    
-      {/* AgGrid table */}
-      <div
-        className="ag-theme-alpine"
-        style={{
-          height: "500px",
-          width: "100%",
-          position: "relative",
-        }}
-      >
-        <style>
-          {`
-            .ag-header {
-              position: sticky;
-              top: 0;
-              z-index: 10; /* Ensures the header is above rows */
-              background-color: white; /* Keep the header visible */
-            }
-            .ag-header-cell {
-              background-color: white; /* Ensure individual header cells remain visible */
-              border-bottom: 1px solid #ddd; /* Optional: Add a bottom border for better visibility */
-            }
-          `}
-        </style>
-        <AgGridReact
-          columnDefs={columnDefs}
-          rowData={filteredEmployees} // Display filtered employees
-          domLayout="normal"
-          pagination={true} // Add pagination
-          paginationPageSize={10} // Set the number of rows per page
-          onRowClicked={handleRowClick} // Trigger modal on row click
-        />
+    <div className="max-w-5xl mx-auto p-4">
+      {/* Search bar component */}
+      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+
+      {/* HTML Table */}
+      <div className="overflow-x-auto mt-4">
+        <table className="w-full border-collapse border border-gray-200">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="px-4 py-2 border border-gray-200 sticky left-0 bg-gray-100 z-10">
+                Employee ID
+              </th>
+              <th className="px-4 py-2 border border-gray-200 sticky left-16 bg-gray-100 z-10">
+                First Name
+              </th>
+              <th className="px-4 py-2 border border-gray-200 sticky left-32 bg-gray-100 z-10">
+                Last Name
+              </th>
+              <th className="px-4 py-2 border border-gray-200">
+                Email Address
+              </th>
+              <th className="px-4 py-2 border border-gray-200">Department</th>
+              <th className="px-4 py-2 border border-gray-200">Designation</th>
+              <th className="px-4 py-2 border border-gray-200">
+                Employment Type
+              </th>
+              <th className="px-4 py-2 border border-gray-200">
+                Employment Status
+              </th>
+              <th className="px-4 py-2 border border-gray-200">
+                Reporting Manager
+              </th>
+              <th className="px-4 py-2 border border-gray-200">
+                Date of Joining
+              </th>
+              <th className="px-4 py-2 border border-gray-200">
+                Date of Birth
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentRows.map((employee) => (
+              <tr
+                key={employee.id}
+                className="hover:bg-gray-100 cursor-pointer"
+                onClick={() => handleRowClick(employee)}
+              >
+                <td className="px-4 py-2 border border-gray-200 sticky left-0 bg-white z-10">
+                  {employee.id}
+                </td>
+                <td className="px-4 py-2 border border-gray-200 sticky left-16 bg-white z-10">
+                  {employee.firstName}
+                </td>
+                <td className="px-4 py-2 border border-gray-200 sticky left-32 bg-white z-10">
+                  {employee.lastName}
+                </td>
+                <td className="px-4 py-2 border border-gray-200">
+                  {employee.email}
+                </td>
+                <td className="px-4 py-2 border border-gray-200">
+                  {employee.department}
+                </td>
+                <td className="px-4 py-2 border border-gray-200">
+                  {employee.Role}
+                </td>
+                <td className="px-4 py-2 border border-gray-200">
+                  {employee.Type}
+                </td>
+                <td className="px-4 py-2 border border-gray-200">
+                  {employee.Active}
+                </td>
+                <td className="px-4 py-2 border border-gray-200">
+                  {employee.ReportingTo}
+                </td>
+                <td className="px-4 py-2 border border-gray-200">
+                  {employee.JoiningDate}
+                </td>
+                <td className="px-4 py-2 border border-gray-200">
+                  {employee.BirthDate}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-4 flex justify-center">
+        {[...Array(totalPages)].map((_, index) => (
+          <button
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+            className={`px-3 py-1 mx-1 rounded ${
+              currentPage === index + 1
+                ? "bg-blue-500 text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
       </div>
 
       {/* Modal for employee details */}
       {isModalOpen && selectedEmployee && (
-        <div
-          style={{
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            zIndex: 20,
-            background: "white",
-            borderRadius: "8px",
-            padding: "20px",
-            width: "80%",
-            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <h2>Employee Details</h2>
-          <button
-            onClick={closeModal}
-            style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-            Close
-          </button>
-          <div style={{ marginTop: "20px" }}>
-            <p><strong>Employee ID:</strong> {selectedEmployee.id}</p>
-            <p><strong>First Name:</strong> {selectedEmployee.firstName}</p>
-            <p><strong>Last Name:</strong> {selectedEmployee.lastName}</p>
-            <p><strong>Email:</strong> {selectedEmployee.email}</p>
-            <p><strong>Department:</strong> {selectedEmployee.department}</p>
-            <p><strong>Designation:</strong> {selectedEmployee.Role}</p>
-            <p><strong>Employment Type:</strong> {selectedEmployee.Type}</p>
-            <p><strong>Employment Status:</strong> {selectedEmployee.Active}</p>
-            <p><strong>Reporting Manager:</strong> {selectedEmployee.ReportingTo}</p>
-            <p><strong>Date of Joining:</strong> {selectedEmployee.JoiningDate}</p>
-            <p><strong>Date of Birth:</strong> {selectedEmployee.BirthDate}</p>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg p-6 w-4/5 shadow-lg relative">
+            <button
+              onClick={closeModal}
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-800"
+            >
+              &times;
+            </button>
+            <h2 className="text-xl font-semibold mb-4">Employee Details</h2>
+            <div>
+              <p>
+                <strong>Employee ID:</strong> {selectedEmployee.id}
+              </p>
+              <p>
+                <strong>First Name:</strong> {selectedEmployee.firstName}
+              </p>
+              <p>
+                <strong>Last Name:</strong> {selectedEmployee.lastName}
+              </p>
+              <p>
+                <strong>Email:</strong> {selectedEmployee.email}
+              </p>
+              <p>
+                <strong>Department:</strong> {selectedEmployee.department}
+              </p>
+              <p>
+                <strong>Designation:</strong> {selectedEmployee.Role}
+              </p>
+              <p>
+                <strong>Employment Type:</strong> {selectedEmployee.Type}
+              </p>
+              <p>
+                <strong>Employment Status:</strong> {selectedEmployee.Active}
+              </p>
+              <p>
+                <strong>Reporting Manager:</strong>{" "}
+                {selectedEmployee.ReportingTo}
+              </p>
+              <p>
+                <strong>Date of Joining:</strong> {selectedEmployee.JoiningDate}
+              </p>
+              <p>
+                <strong>Date of Birth:</strong> {selectedEmployee.BirthDate}
+              </p>
+            </div>
           </div>
         </div>
-      )}
-
-      {/* Modal background */}
-      {isModalOpen && (
-        <div
-          onClick={closeModal}
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            zIndex: 10,
-          }}
-        ></div>
       )}
     </div>
   );

@@ -168,5 +168,48 @@ export const employees = [
     JoiningDate: "2020-06-10",
     BirthDate: "1985-11-30",
   },
-  // Add more employee records as needed
 ];
+
+const employeeData = {
+  id: "1",
+  firstName: "John",
+  lastName: "Doe",
+  Role: "CEO",
+  department: "Management",
+  children: [
+    {
+      id: "2",
+      firstName: "Jane",
+      lastName: "Smith",
+      Role: "CTO",
+      department: "Engineering",
+      children: [
+        {
+          id: "3",
+          firstName: "Alice",
+          lastName: "Johnson",
+          Role: "Lead Engineer",
+          department: "Engineering",
+          children: [
+            {
+              id: "4",
+              firstName: "Michael",
+              lastName: "Brown",
+              Role: "Engineer",
+              department: "Engineering",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "5",
+      firstName: "Robert",
+      lastName: "Jones",
+      Role: "CFO",
+      department: "Finance",
+    },
+  ],
+};
+
+export default employeeData;

@@ -6,16 +6,25 @@ const TeamSpaceDashboard = () => {
   const [showModal, setShowModal] = useState(false);
   const [showTeamStrength, setShowTeamStrength] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [filterType, setFilterType] = useState(""); // To differentiate between check-in and check-out
 
   // Filtered list based on search query
-  const filteredMembers = consolidatedMembers.filter((member) =>
-    member.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredMembers = consolidatedMembers.filter((member) => {
+    if (filterType === "Yet to Check-in") {
+      return member.status === "Yet to Check-in" && member.name.toLowerCase().includes(searchQuery.toLowerCase());
+    }
+    if (filterType === "Yet to Check-out") {
+      return member.status === "Yet to Check-out" && member.name.toLowerCase().includes(searchQuery.toLowerCase());
+    }
+    return member.name.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
 
   return (
     <div className="flex flex-1 bg-gray-100 p-4">
-      {/* Left Sidebar */}
+      {/* Left Side */}
       <div className="w-1/4 my-20 mr-6 space-y-4">
+      
         <div className="absolute top-[9.5rem] left-[13.9rem] border w-24 h-24 flex justify-center items-center bg-white font-bold text-6xl cursor-pointer bg  shadow-lg">
           SE
         </div>
@@ -35,18 +44,24 @@ const TeamSpaceDashboard = () => {
           <h3 className="font-semibold">Team Availability</h3>
           <p>Yet to check-in {" "} 
           <span
-              className="cursor-pointer ml-[127px] text-blue-500 hover:underline "
-              onClick={() => setShowTeamStrength(!showTeamStrength)}
+              className="cursor-pointer ml-[127px] text-blue-500 hover:underline"
+              onClick={() => {
+                setFilterType("Yet to Check-in");
+                setShowTeamStrength(true);
+              }}
             >
-              {consolidatedMembers.length}
+              {consolidatedMembers.filter((member) => member.status === "Yet to Check-in").length}
             </span>
           </p>
           <p>Yet to check-out {" "} 
           <span
-              className="cursor-pointer ml-[117px] text-blue-500 hover:underline "
-              onClick={() => setShowTeamStrength(!showTeamStrength)}
+              className="cursor-pointer ml-[117px] text-blue-500 hover:underline"
+              onClick={() => {
+                setFilterType("Yet to Check-out");
+                setShowTeamStrength(true);
+              }}
             >
-              {consolidatedMembers.length}
+              {consolidatedMembers.filter((member) => member.status === "Yet to Check-out").length}
             </span>
           </p>
         </div>
@@ -84,7 +99,7 @@ const TeamSpaceDashboard = () => {
         </div>
       </div>
 
-      {/* Right Sidebar */}
+      {/* Right Side */}
       <div className="w-1/4 my-[97px] space-y-4">
         <div className="bg-white shadow p-4 rounded-lg h-74">
           <h3 className="font-semibold mb-4">Recently Checked In</h3>

@@ -39,6 +39,7 @@ const ClickOrganization = () => {
         padding: 2,
         boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
         marginBottom: 2,
+        
       }}
     >
       <Box
@@ -96,6 +97,7 @@ const ClickOrganization = () => {
           margin: "0 auto",
           maxWidth: "90%",
           boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+          
         }}
       >
         {/* Profile Section */}
